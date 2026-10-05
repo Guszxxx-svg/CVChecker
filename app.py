@@ -9,8 +9,12 @@ st.set_page_config(page_title="AI CV Checker & Jouken Matcher", page_icon="📄"
 st.title("📄 AI CV Checker & Jouken Matcher")
 st.write("Unggah file Excel daftar kandidat multi-sheet Anda dan tentukan syarat (*Jouken*) untuk disaring secara otomatis oleh AI.")
 
-# Input API Key (dikosongkan agar pengguna memasukkan kunci asli berawalan 'AIza')
-api_key_default = ""
+# Mengambil API Key secara otomatis dari Streamlit Secrets atau input manual jika kosong
+try:
+    api_key_default = st.secrets.get("GEMINI_API_KEY", "")
+except Exception:
+    api_key_default = ""
+
 api_key = st.text_input("Gemini API Key:", value=api_key_default, type="password")
 
 # Input Syarat / Jouken
@@ -84,7 +88,7 @@ if st.button("Mulai Proses Pengecekan CV", type="primary"):
                 - Catatan Penting:
                 """
                 
-                # Panggil Gemini API (menggunakan model gemini-2.5-flash)
+                # Panggil Gemini API (menggunakan model gemini-2.5-flash yang valid)
                 try:
                     response = client.models.generate_content(
                         model='gemini-3.5-flash',
@@ -107,4 +111,4 @@ if st.button("Mulai Proses Pengecekan CV", type="primary"):
             st.success("Semua kandidat berhasil diperiksa!")
             
         except Exception as e:
-            st.error(f"Terjadi kesalahan saat membaca file Excel: {str(e)}")
+            st.error(f"Terjadi kesalahan saat membaca file: {str(e)}")
