@@ -9,8 +9,8 @@ st.set_page_config(page_title="AI CV Checker & Jouken Matcher", page_icon="📄"
 st.title("📄 AI CV Checker & Jouken Matcher")
 st.write("Unggah file Excel daftar kandidat multi-sheet Anda dan tentukan syarat (*Jouken*) untuk disaring secara otomatis oleh AI.")
 
-# Input API Key (bisa diisi otomatis atau dimasukkan pengguna)
-api_key_default = "AQ.Ab8RN6Lvb9zmxhY2tevySxCNtHls66YB_1y5qscEhhA7AdNy1g"
+# Input API Key (dikosongkan agar pengguna memasukkan kunci asli berawalan 'AIza')
+api_key_default = ""
 api_key = st.text_input("Gemini API Key:", value=api_key_default, type="password")
 
 # Input Syarat / Jouken
@@ -84,7 +84,7 @@ if st.button("Mulai Proses Pengecekan CV", type="primary"):
                 - Catatan Penting:
                 """
                 
-                # Panggil Gemini API (menggunakan model 3.5-flash)
+                # Panggil Gemini API (menggunakan model gemini-2.5-flash)
                 try:
                     response = client.models.generate_content(
                         model='gemini-3.5-flash',
